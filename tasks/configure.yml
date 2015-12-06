@@ -37,18 +37,6 @@
     - directory-structure
     - apache2
 
-- name: "Directory Exists | {{ apache2_auth_root }}"
-  file:
-    state: directory
-    path: "{{ apache2_auth_root }}"
-    owner: "{{ apache2_user }}"
-    group: "{{ apache2_group }}"
-    mode: 0775
-  when: apache2_auth_enabled | bool
-  tags:
-    - directory-structure
-    - apache2
-
 - name: Upload Config | apache2
   template:
     src: etc/apache2/apache2.conf
