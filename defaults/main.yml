@@ -4,8 +4,8 @@ apache2_user: www-data
 apache2_group: www-data
 
 apache2_runtime_root: "{{ runtime_root | default('/var/run') }}/apache2"
-apache2_pidfile_path: "{{ nginx_runtime_root }}/apache2.pid"
-apache2_socket_path: "{{ nginx_runtime_root }}/apache2.sock"
+apache2_pidfile_path: "{{ apache2_runtime_root }}/apache2.pid"
+apache2_socket_path: "{{ apache2_runtime_root }}/apache2.sock"
 apache2_log_root: "{{ log_root | default('/var/log') }}/apache2"
 
 apache2_docroot: /data/www/docroot
