@@ -76,7 +76,7 @@
   file:
     state: link
     src: "/etc/apache2/sites-available/{{ apache2_configuration_name }}.conf"
-    dest: "/etc/apache2/sites-enabled/{{ apache2_configuration_name }}"
+    dest: "/etc/apache2/sites-enabled/{{ apache2_configuration_name }}.conf"
   notify: Reload Service | apache2
   tags:
     - configuration
