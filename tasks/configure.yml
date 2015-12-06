@@ -17,8 +17,8 @@
     regexp: '/var/run/\$NAME.pid'
     replace: "{{ apache2_pidfile_path }}"
   with_items:
-    - /etc/init.d/nginx
-    - /etc/logrotate.d/nginx
+    - /etc/init.d/apache2
+    - /etc/logrotate.d/apache2
   tags:
     - initscript
     - runtime-data
