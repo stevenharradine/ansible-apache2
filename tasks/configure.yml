@@ -78,7 +78,6 @@
     src: "/etc/apache2/sites-available/{{ apache2_configuration_name }}.conf"
     dest: "/etc/apache2/sites-enabled/{{ apache2_configuration_name }}"
   notify: Reload Service | apache2
-  when: apache2_standard_configuration | bool
   tags:
     - configuration
     - enable-configuration
