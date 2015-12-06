@@ -1,0 +1,97 @@
+---
+- name: "Directory Exists | {{ apache2_runtime_root }}"
+  file:
+    state: directory
+    path: "{{ apache2_runtime_root }}"
+    owner: "{{ apache2_user }}"
+    group: "{{ apache2_group }}"
+    mode: 0775
+  tags:
+    - directory-structure
+    - runtime-data
+    - apache2
+
+- name: apache2 | update pidfile preferences
+  replace:
+    dest: "{{ item }}"
+    regexp: '/var/run/\$NAME.pid'
+    replace: "{{ nginx_pidfile_path }}"
+  with_items:
+    - /etc/init.d/nginx
+    - /etc/logrotate.d/nginx
+  tags:
+    - initscript
+    - runtime-data
+    - pidfile
+    - apache2
+
+- name: "Directory Exists | {{ nginx_docroot }}"
+  file:
+    state: directory
+    path: "{{ apache2_docroot }}"
+    owner: "{{ apache2_user }}"
+    group: "{{ apache2_group }}"
+    mode: 0775
+  when: apache2_creates_docroot | bool
+  tags:
+    - directory-structure
+    - apache2
+
+- name: "Directory Exists | {{ apache2_auth_root }}"
+  file:
+    state: directory
+    path: "{{ apache2_auth_root }}"
+    owner: "{{ apache2_user }}"
+    group: "{{ apache2_group }}"
+    mode: 0775
+  when: apache2_auth_enabled | bool
+  tags:
+    - directory-structure
+    - apache2
+
+- name: Upload Config | apache2
+  template:
+    src: etc/apache2/apache2.conf
+    dest: /etc/apache2/apache2.conf
+    owner: root
+    group: staff
+    mode: 0664
+  notify: Reload Service | apache2
+  tags:
+    - configuration
+    - template-configuration
+    - apache2
+
+- name: Disable Config | apache2 | default
+  file:
+    state: absent
+    path: /etc/apache2/sites-enabled/default
+  notify: Reload Service | apache2
+  tags:
+    - configuration
+    - disable-configuration
+    - disable-default
+    - apache2
+
+- name: Upload Config | apache2 | Standard
+  template:
+    src: etc/apache2/sites-available/standard-configuration.conf
+    dest: "/etc/apache2/sites-available/{{ apache2_configuration_name }}.conf"
+    owner: root
+    group: staff
+    mode: 0664
+  notify: Reload Service | apache2
+  tags:
+    - apache2
+
+- name: Enable Config | apache2 | Standard
+  file:
+    state: link
+    src: "/etc/apache2/sites-available/{{ apache2_configuration_name }}.conf"
+    dest: "/etc/apache2/sites-enabled/{{ apache2_configuration_name }}"
+  notify: Reload Service | apache2
+  when: apache2_standard_configuration | bool
+  tags:
+    - configuration
+    - enable-configuration
+    - apache2
