@@ -15,7 +15,7 @@
   replace:
     dest: "{{ item }}"
     regexp: '/var/run/\$NAME.pid'
-    replace: "{{ nginx_pidfile_path }}"
+    replace: "{{ apache2_pidfile_path }}"
   with_items:
     - /etc/init.d/nginx
     - /etc/logrotate.d/nginx
