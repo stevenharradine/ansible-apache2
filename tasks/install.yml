@@ -8,7 +8,7 @@
     - software-installation
     - using-apt
 
-- name: Install Packages | apt
+- name: Install PHP bridge | apt
   apt:
     state: latest
     pkg: libapache2-mod-php5
