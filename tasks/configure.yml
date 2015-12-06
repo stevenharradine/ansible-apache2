@@ -65,8 +65,8 @@
   template:
     src: etc/apache2/sites-available/standard-configuration.conf
     dest: "/etc/apache2/sites-available/{{ apache2_configuration_name }}.conf"
-    owner: root
-    group: staff
+    owner: "{{ apache2_user }}"
+    group: "{{ apache2_group }}"
     mode: 0664
   notify: Reload Service | apache2
   tags:
