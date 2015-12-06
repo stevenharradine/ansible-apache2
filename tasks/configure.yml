@@ -25,7 +25,7 @@
     - pidfile
     - apache2
 
-- name: "Directory Exists | {{ nginx_docroot }}"
+- name: "Directory Exists | {{ apache2_docroot }}"
   file:
     state: directory
     path: "{{ apache2_docroot }}"
