@@ -53,7 +53,10 @@
 - name: Disable Config | apache2 | default
   file:
     state: absent
-    path: /etc/apache2/sites-enabled/default
+    path: "/etc/apache2/sites-enabled/{{ item }}"
+  with_items:
+    - 000-default.conf
+    - default-ssl.conf
   notify: Reload Service | apache2
   tags:
     - configuration
